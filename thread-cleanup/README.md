@@ -5,13 +5,13 @@ Interactive cleanup utility for managing LangGraph threads across deployments. P
 ## Prerequisites
 
 - Python 3.7+
-- `aiohttp` library
+- `langgraph-sdk` library
 
 ## Installation
 
 Install required dependency:
 ```bash
-pip install aiohttp
+pip install langgraph-sdk
 ```
 
 ## Usage
@@ -90,31 +90,30 @@ Your API key must have permissions to:
 - Check that the URL matches your actual LangGraph deployment
 - Ensure the API key belongs to the correct organization/tenant
 
-### "None of the thread endpoints worked"
-- Confirm your LangGraph server is running and accessible
-- Verify the URL format is correct
-- Check API key permissions
-- Ensure network connectivity to the deployment
-
 ### Connection Issues
 - Verify the deployment URL is reachable
 - Check for any firewall or network restrictions
 - Confirm the API key is valid and not expired
+- Ensure your LangGraph server is running and accessible
 
 ## Example Session
 
 ```
 Discovering threads...
 Connecting to: https://your-deployment.us.langgraph.app
-Found working endpoint: POST /threads/search
 Found: 15 threads
 
 Total threads found: 15
 
 By Status:
 ├─ idle: 10
-├─ success: 3
-├─ error: 2
+├─ completed: 3
+├─ failed: 2
+
+By Runs:
+├─ 0 runs: 5
+├─ 1 run: 7
+├─ 3 runs: 3
 
 What would you like to delete?
 1. Delete by TIME
@@ -127,19 +126,30 @@ What would you like to delete?
 
 Select option (1-7): 2
 
-Delete by STATUS
+Select Status:
 1. idle (10 threads)
-2. success (3 threads)
-3. error (2 threads)
-4. Review all status categories
-5. Back to main menu
+2. completed (3 threads)
+3. failed (2 threads)
+4. Go back to main menu
 
-Select option (1-5): 1
+Select status (1-4): 1
 
-You're about to delete 10 idle threads. This cannot be undone!
-Do you want to continue? (yes/no): yes
+Found 10 threads with status "idle".
 
-Successfully deleted 10 threads
+Do you want to:
+1. Review threads before deleting
+2. Delete immediately
+3. Go back to status menu
+
+Select option (1-3): 2
+
+Deleting 10 threads...
+Are you sure you want to delete 10 threads? (yes/no): yes
+Deleted: 10/10
+
+Summary: 10 deleted, 0 failed
+
+Cleanup completed. Total threads deleted: 10
 ```
 
 ## Support
